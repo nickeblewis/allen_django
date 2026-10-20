@@ -47,6 +47,7 @@ if RAILWAY_PUBLIC_DOMAIN:
 # Railway's healthcheck calls from this host.
 ALLOWED_HOSTS.append("healthcheck.railway.app")
 ALLOWED_HOSTS.append("allendjango-production.up.railway.app")
+ALLOWED_HOSTS.append("allenfamilyaccounting.co.uk")
 if DEBUG or TESTING:
     ALLOWED_HOSTS += ["localhost", "127.0.0.1", "0.0.0.0", "[::1]", "testserver"]
 
