@@ -1,0 +1,23 @@
+# Local development: `docker compose up`, then open http://localhost:8000
+services:
+  web:
+    build:
+      context: .
+      args:
+        DEV: "1"
+    # Django's dev server with Tailwind watching templates for class changes.
+    command: python manage.py tailwind runserver 0.0.0.0:8000
+    # Tailwind v4's watcher quits when stdin closes, which it does in a detached container.
+    stdin_open: true
+    tty: true
+    environment:
+      DEBUG: "1"
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      # WEB_PORT=8001 docker compose up, if 8000 is taken on the host.
+      - "${WEB_PORT:-8000}:8000"
+    volumes:
+      # The source is mounted over the image's copy, so edits show up straight away.
+      - .:/app

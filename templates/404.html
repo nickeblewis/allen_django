@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found | {{ site.name }}{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center bg-hero-gradient px-4">
+  <div class="text-center">
+    <h1 class="text-4xl md:text-6xl font-bold text-primary mb-4 tracking-tight">Page not found</h1>
+    <p class="text-lg text-muted-foreground mb-8">That page doesn't exist.</p>
+    <a href="/" class="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">Back to the home page</a>
+  </div>
+</section>
+{% endblock %}

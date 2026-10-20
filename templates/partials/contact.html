@@ -1,0 +1,73 @@
+<section id="contact" class="py-20 bg-background">
+  <div class="site-container px-4">
+    <div class="reveal text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Get in Touch</h2>
+      <p class="text-muted-foreground max-w-2xl mx-auto">
+        Ready to take control of your finances? We'd love to hear from you.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+      {# Contact info #}
+      <div class="reveal space-y-8" style="--reveal-x: -20px; --reveal-y: 0">
+        <div>
+          <h3 class="text-2xl font-semibold text-primary mb-6">Let's Start a Conversation</h3>
+          <p class="text-muted-foreground leading-relaxed">
+            You can get in touch with us via email or by filling out the contact form. We look forward to assisting you with your accounting needs.
+          </p>
+        </div>
+
+        <div class="space-y-4">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
+              {% include "icons/mail.svg" with cls="w-5 h-5 text-accent" %}
+            </div>
+            <div>
+              <p class="text-sm text-muted-foreground">Email us</p>
+              <a href="mailto:{{ site.email }}" class="font-medium text-primary hover:underline">{{ site.email }}</a>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
+              {% include "icons/clock.svg" with cls="w-5 h-5 text-accent" %}
+            </div>
+            <div>
+              <p class="text-sm text-muted-foreground">Office hours</p>
+              <p class="font-medium text-primary">Mon-Fri: 9am - 5pm</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Contact form #}
+      <form method="post" action="/#contact" class="reveal space-y-6 p-8 bg-card rounded-xl border border-border" style="--reveal-x: 20px; --reveal-y: 0">
+        {% csrf_token %}
+
+        {% for message in messages %}
+          <div role="status" class="px-4 py-3 rounded-lg border {% if message.level_tag == 'error' %}border-destructive/30 bg-destructive/10 text-destructive{% else %}border-primary/30 bg-primary/10 text-primary{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+
+        {# Honeypot: kept off-screen rather than display:none, which some bots skip. #}
+        <div class="absolute -left-[9999px]" aria-hidden="true">
+          <label for="{{ form.website.id_for_label }}">Leave this empty</label>
+          <input type="text" name="website" id="{{ form.website.id_for_label }}" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          {% include "partials/field.html" with field=form.name %}
+          {% include "partials/field.html" with field=form.email %}
+        </div>
+
+        {% include "partials/field.html" with field=form.message %}
+
+        <button type="submit" class="w-full flex items-center justify-center gap-2 px-6 py-4 text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-semibold">
+          Send Message
+          {% include "icons/send.svg" with cls="w-4 h-4" %}
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

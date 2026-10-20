@@ -1,0 +1,40 @@
+<footer class="bg-primary text-primary-foreground py-16">
+  <div class="site-container px-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-12">
+      {# Company info #}
+      <div>
+        <h3 class="text-2xl font-bold mb-4">{{ site.name }}</h3>
+        <p class="text-primary-foreground/80 leading-relaxed">
+          Providing trusted accounting services to families and businesses
+        </p>
+      </div>
+
+      {# Contact details #}
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            {% include "icons/mail.svg" with cls="w-5 h-5 text-accent shrink-0" %}
+            <a href="mailto:{{ site.email }}" class="text-primary-foreground/80 hover:text-primary-foreground">{{ site.email }}</a>
+          </div>
+        </div>
+      </div>
+
+      {# Office hours #}
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Office Hours</h4>
+        <div class="space-y-2 text-primary-foreground/80">
+          <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
+          <p>Saturday: By Appointment</p>
+          <p>Sunday: Closed</p>
+          <p class="mt-4 text-sm">Extended hours available during tax season</p>
+        </div>
+      </div>
+    </div>
+
+    {# Bottom bar #}
+    <div class="pt-8 border-t border-primary-foreground/20 text-center text-primary-foreground/60 text-sm">
+      <p>&copy; {% now "Y" %} {{ site.name }}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,8 @@
+.venv
+.env
+.git
+__pycache__
+*.pyc
+staticfiles
+static/css/tailwind.css
+.django_tailwind_cli

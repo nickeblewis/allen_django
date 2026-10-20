@@ -1,0 +1,31 @@
+<section class="py-20 bg-muted/30">
+  <div class="site-container px-4">
+    <div class="reveal text-center mb-16">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">What Our Clients Say</h2>
+      <p class="text-muted-foreground max-w-2xl mx-auto">
+        Don't just take our word for it — hear from families and businesses we've helped
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      {% for testimonial in testimonials %}
+        <div class="reveal relative p-8 bg-card rounded-xl border border-border" style="--reveal-delay: {{ testimonial.delay }}s">
+          {% include "icons/quote.svg" with cls="absolute top-6 right-6 w-10 h-10 text-accent/20" %}
+
+          <div class="flex gap-1 mb-4" aria-label="{{ testimonial.rating }} out of 5 stars">
+            {% for _ in testimonial.stars %}
+              {% include "icons/star.svg" with cls="w-5 h-5 fill-accent text-accent" %}
+            {% endfor %}
+          </div>
+
+          <p class="text-foreground mb-6 leading-relaxed">"{{ testimonial.content }}"</p>
+
+          <div>
+            <p class="font-semibold text-primary">{{ testimonial.name }}</p>
+            <p class="text-sm text-muted-foreground">{{ testimonial.role }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

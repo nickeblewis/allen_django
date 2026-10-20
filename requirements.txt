@@ -1,0 +1,6 @@
+Django>=6.1,<6.2
+gunicorn>=23.0
+whitenoise>=6.9
+django-tailwind-cli>=4.8
+python-dotenv>=1.1
+django-anymail[resend]>=15.2
