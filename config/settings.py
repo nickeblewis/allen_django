@@ -9,6 +9,7 @@ form that sends an email.
 import os
 import sys
 from pathlib import Path
+from urllib.parse import quote
 
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
@@ -183,6 +184,18 @@ LOGGING = {
 
 # --- Site identity ------------------------------------------------------------
 
+# WhatsApp click-to-chat numbers: digits only, international format, comma
+# separated. Each becomes a https://wa.me/ link.
+WHATSAPP_NUMBERS = env_list("WHATSAPP_NUMBERS") or ["447717453767"]
+WHATSAPP_GREETING = "Hi, I found you on your website and have a question about "
+
+
+def whatsapp_contact(number: str) -> dict[str, str]:
+    # UK mobiles read as +44 7717 453767; anything else is shown as +<digits>.
+    display = f"+44 {number[2:6]} {number[6:]}" if number.startswith("447") and len(number) == 12 else f"+{number}"
+    return {"url": f"https://wa.me/{number}?text={quote(WHATSAPP_GREETING)}", "display": display}
+
+
 SITE = {
     "name": "Allen Family Accounting",
     "description": (
@@ -190,4 +203,5 @@ SITE = {
         "Building financial confidence, one family at a time."
     ),
     "email": CONTACT_EMAIL,
+    "whatsapp": [whatsapp_contact(n) for n in WHATSAPP_NUMBERS],
 }

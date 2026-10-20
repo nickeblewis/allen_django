@@ -13,7 +13,7 @@
         <div>
           <h3 class="text-2xl font-semibold text-primary mb-6">Let's Start a Conversation</h3>
           <p class="text-muted-foreground leading-relaxed">
-            You can get in touch with us via email or by filling out the contact form. We look forward to assisting you with your accounting needs.
+            You can get in touch with us by email or WhatsApp, or fill in the form to start a WhatsApp chat with us. We look forward to assisting you with your accounting needs.
           </p>
         </div>
 
@@ -25,6 +25,18 @@
             <div>
               <p class="text-sm text-muted-foreground">Email us</p>
               <a href="mailto:{{ site.email }}" class="font-medium text-primary hover:underline">{{ site.email }}</a>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center">
+              {% include "icons/whatsapp.svg" with cls="w-5 h-5 text-accent" %}
+            </div>
+            <div>
+              <p class="text-sm text-muted-foreground">WhatsApp us</p>
+              {% for wa in site.whatsapp %}
+                <a href="{{ wa.url }}" target="_blank" rel="noopener" class="block font-medium text-primary hover:underline">{{ wa.display }}</a>
+              {% endfor %}
             </div>
           </div>
 
@@ -64,8 +76,8 @@
         {% include "partials/field.html" with field=form.message %}
 
         <button type="submit" class="w-full flex items-center justify-center gap-2 px-6 py-4 text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-semibold">
-          Send Message
-          {% include "icons/send.svg" with cls="w-4 h-4" %}
+          Send via WhatsApp
+          {% include "icons/whatsapp.svg" with cls="w-5 h-5" %}
         </button>
       </form>
     </div>

@@ -49,6 +49,7 @@ Service variables:
 | `CONTACT_EMAIL` | Where enquiries go. Defaults to allenfamilybooks5@gmail.com. |
 | `DEFAULT_FROM_EMAIL` | The sender. With Resend, an address on a verified domain; defaults to `onboarding@resend.dev`. With SMTP, defaults to `EMAIL_HOST_USER`. |
 | `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS` | SMTP instead of Resend (ignored if `RESEND_API_KEY` is set). Only works on Railway's Pro plan. For Gmail: `smtp.gmail.com`, `587`, the account address and an [app password](https://myaccount.google.com/apppasswords). |
+| `WHATSAPP_NUMBERS` | Optional. Comma-separated WhatsApp click-to-chat numbers, digits only in international format. Defaults to `447717453767`. With more than one, the floating button opens a menu of them. |
 | `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS` | Only for a custom domain, e.g. `allenfamilyaccounting.co.uk` and `https://allenfamilyaccounting.co.uk`. The Railway domain is added automatically. |
 
 ### Contact form email (Resend)

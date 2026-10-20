@@ -1,8 +1,7 @@
 import logging
+from urllib.parse import quote
 
 from django.conf import settings
-from django.contrib import messages
-from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
@@ -47,26 +46,11 @@ def home(request):
         if form.is_valid():
             if form.is_spam():
                 logger.info("Dropped contact form submission caught by the honeypot.")
-            else:
-                data = form.cleaned_data
-                email = EmailMessage(
-                    subject=f"Website enquiry from {data['name']}",
-                    body=f"Name: {data['name']}\nEmail: {data['email']}\n\n{data['message']}",
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[settings.CONTACT_EMAIL],
-                    reply_to=[data["email"]],
-                )
-                try:
-                    email.send()
-                except Exception:
-                    logger.exception("Couldn't send contact form email.")
-                    messages.error(
-                        request,
-                        f"Sorry, your message couldn't be sent. Please email us at {settings.CONTACT_EMAIL}.",
-                    )
-                    return render_home(request, form)
-            messages.success(request, "Message sent! We'll get back to you within 24 hours.")
-            return redirect("/#contact")
+                return redirect("/#contact")
+            # Hand the enquiry to WhatsApp, typed out and ready for the visitor to send.
+            data = form.cleaned_data
+            text = f"Hi, I'm {data['name']} ({data['email']}).\n\n{data['message']}"
+            return redirect(f"https://wa.me/{settings.WHATSAPP_NUMBERS[0]}?text={quote(text)}")
     else:
         form = ContactForm()
     return render_home(request, form)

@@ -1,4 +1,4 @@
-from django.core import mail
+from urllib.parse import unquote
 
 VALID = {"name": "Jane Doe", "email": "jane@example.com", "message": "I need help with my tax return."}
 
@@ -15,39 +15,38 @@ def test_testimonials_are_hidden_until_real_ones_exist(client):
     assert b"What Our Clients Say" not in client.get("/").content
 
 
+def test_whatsapp_link(client):
+    content = client.get("/").content
+    assert b"https://wa.me/447717453767?text=" in content
+    assert b"+44 7717 453767" in content
+
+
 def test_up(client):
     response = client.get("/up")
     assert response.status_code == 200
     assert response.content == b"ok"
 
 
-def test_contact_form_sends_email(client, settings):
-    settings.CONTACT_EMAIL = "office@example.com"
+def test_contact_form_opens_whatsapp(client, settings):
+    settings.WHATSAPP_NUMBERS = ["447700900123"]
     response = client.post("/", VALID)
     assert response.status_code == 302
-    assert response["Location"] == "/#contact"
-    assert len(mail.outbox) == 1
-    sent = mail.outbox[0]
-    assert sent.to == ["office@example.com"]
-    assert sent.reply_to == ["jane@example.com"]
-    assert "Jane Doe" in sent.subject
-    assert "tax return" in sent.body
-
-    followed = client.get("/")
-    assert b"Message sent!" in followed.content
+    location = unquote(response["Location"])
+    assert location.startswith("https://wa.me/447700900123?text=")
+    assert "Jane Doe (jane@example.com)" in location
+    assert "tax return" in location
 
 
 def test_contact_form_shows_errors(client):
     response = client.post("/", {**VALID, "email": "not-an-email"})
     assert response.status_code == 200
     assert b"Enter a valid email address." in response.content
-    assert len(mail.outbox) == 0
 
 
 def test_honeypot_drops_submission_quietly(client):
     response = client.post("/", {**VALID, "website": "http://spam.example"})
     assert response.status_code == 302
-    assert len(mail.outbox) == 0
+    assert response["Location"] == "/#contact"
 
 
 def test_404_page(client, settings):

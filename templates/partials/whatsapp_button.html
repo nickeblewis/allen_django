@@ -1,0 +1,25 @@
+{# With one number the button opens the chat; with more it opens a menu of them. #}
+{% with wa_class="flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-lg hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] transition-transform cursor-pointer" %}
+<div class="fixed bottom-5 right-5 z-50 mb-[env(safe-area-inset-bottom)]">
+  {% if site.whatsapp|length == 1 %}
+    <a href="{{ site.whatsapp.0.url }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp" class="{{ wa_class }}">
+      {% include "icons/whatsapp.svg" with cls="w-7 h-7" %}
+    </a>
+  {% else %}
+    <details class="group relative">
+      <summary aria-label="Chat with us on WhatsApp" class="{{ wa_class }} list-none [&::-webkit-details-marker]:hidden">
+        {% include "icons/whatsapp.svg" with cls="w-7 h-7" %}
+      </summary>
+      <div class="absolute bottom-full right-0 mb-3 w-60 p-2 bg-card border border-border rounded-xl shadow-lg">
+        <p class="px-3 pt-2 pb-1 text-sm text-muted-foreground">Chat with us on WhatsApp</p>
+        {% for wa in site.whatsapp %}
+          <a href="{{ wa.url }}" target="_blank" rel="noopener" class="flex items-center gap-3 px-3 py-2 rounded-lg font-medium text-primary hover:bg-accent">
+            {% include "icons/whatsapp.svg" with cls="w-5 h-5 text-[#25D366] shrink-0" %}
+            {{ wa.display }}
+          </a>
+        {% endfor %}
+      </div>
+    </details>
+  {% endif %}
+</div>
+{% endwith %}
